@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+<title>Martha Kim - Memory Latency Calculator</title>
+<style type="text/css">
+ #boxC { 
+  float:left; width:200px; height:200px; padding:10px; margin:10px;
+}
+
+#boxA{
+	float:left; height 200px; margin:10px;
+}
+
+#boxA { background-color: black; padding-bottom: 20px; }
+#boxB {
+display: block;
+height: 300px; 
+border: 5px solid #ccc; 
+margin-top: 280px;
+background: #eee9df url('grid-bg-pattern.png') center top repeat;
+ }
+#boxC { background-color: yellow; }
+
+#drag, #drag2, #drag3, #drag4 {
+  width:200px; height:200px; padding:5px; margin:5px;
+  -moz-user-select:none;
+}
+#drag { margin-left:40px; float: left; padding-left: 15px; background-image: url('image1.jpg');  background-repeat:no-repeat;}
+#drag2 {  margin-left:40px;float: left;padding-left:15px; background-image: url('image2.jpg'); background-repeat:no-repeat;}
+#drag3 {  margin-left:40px;float: left; padding-left:15px; background-image: url('image3.png'); background-repeat:no-repeat;}
+#drag4 {  margin-left:40px;float: left; padding-left:15px; background-image: url('image4.jpg'); background-repeat:no-repeat;}
+
+</style>
+<script type="text/javascript">
+function dragStart(ev) {
+    ev.dataTransfer.effectAllowed='move';
+    //ev.dataTransfer.dropEffect='move';
+    ev.dataTransfer.setData("Text", ev.target.getAttribute('id'));
+    ev.dataTransfer.setDragImage(ev.target,0,0);
+    return true;
+}
+
+function dragEnd(ev) {
+    ev.dataTransfer.clearData("Text");
+    return true
+}
+
+
+function dragEnter(ev) {
+    var idelt = ev.dataTransfer.getData("Text");
+    return true;
+}
+
+function dragOver(ev) {
+    var idelt = ev.dataTransfer.getData("Text");
+    var id = ev.target.getAttribute('id');
+    
+    return false;
+    
+    if( (id =='boxB' || id =='boxA') && (idelt == 'drag' || idelt=='drag2'))
+        return false;
+    else if( id =='boxC' && idelt == 'drag3')
+        return false;
+    else
+        return true;
+}
+
+function dragDrop(ev) {
+  console.log('drop');
+    var idelt = ev.dataTransfer.getData("Text");
+    ev.target.appendChild(document.getElementById(idelt));
+    ev.stopPropagation();
+    return false; // return false so the event will not be propagated to the browser
+}
+
+</script>
+</head>
+<body bgcolor="black">
+    <h1>Drag and drop demo in a HTML document, using the HTML5 drag and drop API</h1>
+
+
+
+   <div id="drag" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)"> </div>
+            
+          <div id="drag2" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)"> </div>
+
+      <div id="drag3" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)"> </div>
+       <div id="drag4" draggable="true"
+            ondragstart="return dragStart(event)"
+            ondragend="return dragEnd(event)"> </div>
+            
+    
+    <div id="boxB"
+        ondragenter="return dragEnter(event)"
+        ondrop="return dragDrop(event)"
+        ondragover="return dragOver(event)">
+    </div>
+    
+    
+
+</body>
+</html>
